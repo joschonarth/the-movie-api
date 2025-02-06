@@ -7,10 +7,31 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum MovieState {
+  TO_WATCH
+  WATCHED
+  RATED
+  RECOMMENDED
+  NOT_RECOMMENDED
+}
+
 model User {
   id       String @id @default(uuid())
   username String @unique
   password String
 
   @@map("users")
+}
+
+model Movie {
+  id           String     @id @default(uuid())
+  title        String
+  synopsis     String?
+  release_year Int
+  genre        String
+  state        MovieState @default(TO_WATCH)
+  rating       Int?
+  created_at   DateTime   @default(now())
+
+  @@map("movies")
 }
