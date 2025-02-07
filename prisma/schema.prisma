@@ -25,15 +25,15 @@ model User {
 }
 
 model Movie {
-  id           String     @id @default(uuid())
-  title        String
-  synopsis     String?
-  release_year Int
-  genre        String
-  state        MovieState @default(TO_WATCH)
-  rating       Int?
-  created_at   DateTime   @default(now())
-  logs         Log[]
+  id          String     @id @default(uuid())
+  title       String
+  synopsis    String?
+  releaseYear Int        @map("release_year")
+  genre       String
+  state       MovieState @default(TO_WATCH)
+  rating      Int?
+  createdAt   DateTime   @default(now()) @map("created_at")
+  logs        Log[]
 
   @@map("movies")
 }
@@ -44,10 +44,10 @@ model Log {
   url       String
   status    Int
   timestamp DateTime @default(now())
-  movie_id  String?  @unique
-  movie     Movie?   @relation(fields: [movie_id], references: [id])
-  user_id   String?
-  user      User?    @relation(fields: [user_id], references: [id])
+  movieId   String?  @unique @map("movie_id")
+  movie     Movie?   @relation(fields: [movieId], references: [id])
+  userId    String?  @map("user_id")
+  user      User?    @relation(fields: [userId], references: [id])
 
   @@map("logs")
 }

@@ -1,6 +1,6 @@
 import { FastifyRequest, FastifyReply } from 'fastify'
-import { prisma } from '@/lib/prisma'
 import { z } from 'zod'
+import { MoviesRepository } from '@/repositories/movies-repository'
 
 export async function addMovie(request: FastifyRequest, reply: FastifyReply) {
   const addMovieBodySchema = z.object({
@@ -11,12 +11,12 @@ export async function addMovie(request: FastifyRequest, reply: FastifyReply) {
 
   const { title, releaseYear, genre } = addMovieBodySchema.parse(request.body)
 
-  await prisma.movie.create({
-    data: {
-      title,
-      releaseYear,
-      genre,
-    },
+  const moviesRepository = new MoviesRepository()
+
+  await moviesRepository.create({
+    title,
+    releaseYear,
+    genre,
   })
 
   return reply.status(201).send()
