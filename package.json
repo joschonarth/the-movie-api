@@ -1,5 +1,5 @@
 {
-  "name": "movie-api",
+  "name": "the-movie-api",
   "type": "module",
   "version": "1.0.0",
   "main": "index.js",
@@ -20,9 +20,11 @@
   },
   "dependencies": {
     "@prisma/client": "6.3.1",
+    "axios": "1.7.9",
     "dotenv": "16.4.7",
     "fastify": "5.2.1",
     "movie-api": "file:",
+    "the-movie-api": "file:",
     "zod": "3.24.1"
   }
 }

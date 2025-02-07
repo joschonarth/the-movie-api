@@ -6,6 +6,7 @@ const envSchema = z.object({
   PORT: z.coerce.number().default(3333),
   ADMIN_USER: z.string().default('admin'),
   ADMIN_PASSWORD: z.string().default('admin123'),
+  TMDB_API_KEY: z.string(),
 })
 
 const _env = envSchema.safeParse(process.env)
