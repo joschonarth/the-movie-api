@@ -1,7 +1,8 @@
 import { FastifyRequest, FastifyReply } from 'fastify'
 import { z } from 'zod'
 import { MoviesRepository } from '@/repositories/movies-repository'
-import { fetchMovieFromTMDB } from '@/services/tmdb-service'
+import { fetchMovieFromTMDB } from '@/services/tmdb-movie-service'
+import { fetchGenresFromTMDB } from '@/services/tmdb-genre-service'
 
 export async function addMovie(request: FastifyRequest, reply: FastifyReply) {
   const addMovieBodySchema = z.object({
@@ -16,12 +17,18 @@ export async function addMovie(request: FastifyRequest, reply: FastifyReply) {
     return reply.status(404).send({ message: 'Movie not found' })
   }
 
+  const genres = await fetchGenresFromTMDB()
+
+  const genreNames = movieData.genreIds.map(
+    (id: number) => genres[id] || 'Unknown',
+  )
+
   const moviesRepository = new MoviesRepository()
 
   await moviesRepository.create({
     title: movieData.title,
     releaseYear: movieData.releaseYear || 0,
-    genre: JSON.stringify(movieData.genreIds),
+    genre: genreNames.join(', '),
     synopsis: movieData.synopsis,
   })
 
