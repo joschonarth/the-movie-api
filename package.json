@@ -12,7 +12,6 @@
   "description": "",
   "devDependencies": {
     "@rocketseat/eslint-config": "2.2.2",
-    "@types/express": "5.0.0",
     "@types/node": "22.13.1",
     "eslint": "8.57.1",
     "prisma": "6.3.1",
@@ -22,8 +21,7 @@
   "dependencies": {
     "@prisma/client": "6.3.1",
     "dotenv": "16.4.7",
-    "express": "4.21.2",
-    "express-basic-auth": "1.2.1",
+    "fastify": "5.2.1",
     "movie-api": "file:",
     "zod": "3.24.1"
   }
