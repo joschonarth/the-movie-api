@@ -21,4 +21,14 @@ export class MoviesRepository {
 
     return movies
   }
+
+  async count(state?: MovieState) {
+    const filter = state ? { state } : {}
+
+    const count = await prisma.movie.count({
+      where: filter,
+    })
+
+    return count
+  }
 }
