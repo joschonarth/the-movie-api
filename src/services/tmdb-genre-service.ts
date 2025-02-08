@@ -8,32 +8,31 @@ const TMDB_API_KEY = env.TMDB_API_KEY
 
 let genreMap: Record<number, string> = {}
 
-export async function fetchGenresFromTMDB() {
+export async function fetchGenresFromTMDB(): Promise<Record<number, string>> {
   if (Object.keys(genreMap).length > 0) return genreMap
 
   try {
-    const response = await axios.get(`${TMDB_BASE_URL}/genre/movie/list`, {
-      params: {
-        api_key: TMDB_API_KEY,
-      },
+    const { data } = await axios.get<{
+      genres: { id: number; name: string }[]
+    }>(`${TMDB_BASE_URL}/genre/movie/list`, {
+      params: { api_key: TMDB_API_KEY },
     })
 
-    const genres = response.data.genres
-
-    if (!genres || !Array.isArray(genres)) {
-      throw new NotFoundError('Genres not found')
+    if (!data.genres?.length) {
+      throw new NotFoundError('Genre not found')
     }
 
-    genreMap = response.data.genres.reduce(
-      (acc: Record<number, string>, genre: { id: number; name: string }) => {
-        acc[genre.id] = genre.name
-        return acc
-      },
-      {},
-    )
+    genreMap = Object.fromEntries(data.genres.map(({ id, name }) => [id, name]))
 
     return genreMap
   } catch (error) {
-    throw new TMDBServiceError('Error searching for genre on TMDB')
+    if (error instanceof NotFoundError) {
+      throw error
+    }
+    throw new TMDBServiceError('Error fetching genres from TMDB')
   }
+}
+
+export function resetGenreMap() {
+  genreMap = {}
 }
