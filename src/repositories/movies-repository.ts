@@ -1,5 +1,5 @@
 import { prisma } from '@/lib/prisma'
-import { MovieState, Prisma } from '@prisma/client'
+import { Movie, MovieState, Prisma } from '@prisma/client'
 
 export class MoviesRepository {
   async create(data: Prisma.MovieCreateInput) {
@@ -30,5 +30,13 @@ export class MoviesRepository {
     })
 
     return count
+  }
+
+  async findById(id: string): Promise<Movie | null> {
+    const movie = await prisma.movie.findUnique({
+      where: { id },
+    })
+
+    return movie
   }
 }
