@@ -1,10 +1,13 @@
 import { env } from '@/env'
 import { UnauthorizedError } from '@/errors/unauthorized-error'
+import { UsersRepository } from '@/repositories/users-repository'
 import { FastifyInstance, FastifyPluginAsync, FastifyRequest } from 'fastify'
 import fp from 'fastify-plugin'
 
 export const authMiddleware: FastifyPluginAsync = fp(
   async (fastify: FastifyInstance) => {
+    const usersRepository = new UsersRepository()
+
     fastify.addHook('onRequest', async (request: FastifyRequest) => {
       const { authorization } = request.headers
 
@@ -25,7 +28,13 @@ export const authMiddleware: FastifyPluginAsync = fp(
         throw new UnauthorizedError()
       }
 
-      request.user = { username }
+      let user = await usersRepository.getByUsername(username)
+
+      if (!user) {
+        user = await usersRepository.create({ username, password })
+      }
+
+      request.user = { id: user.id, username }
     })
   },
 )
