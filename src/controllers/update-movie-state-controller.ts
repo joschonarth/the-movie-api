@@ -3,6 +3,7 @@ import { NotFoundError } from '@/errors/not-found-error'
 import { MoviesRepository } from '@/repositories/movies-repository'
 import { updateMovieStateSchema } from '@/schemas/update-movie-state-schema'
 import { MovieParams } from '@/types/types'
+import { validateStateTransition } from '@/validations/movie-state-validator'
 import { MovieState } from '@prisma/client'
 import { FastifyReply, FastifyRequest } from 'fastify'
 
@@ -23,12 +24,10 @@ export async function updateMovieState(
 
   const upperNewState = newState.toUpperCase() as MovieState
 
+  validateStateTransition(movie.state, upperNewState)
+
   if (!Object.values(MovieState).includes(upperNewState as MovieState)) {
     throw new InvalidStateError('Invalid state provided')
-  }
-
-  if (movie.state === upperNewState) {
-    return reply.status(400).send({ message: 'Movie is already in this state' })
   }
 
   const updatedMovie = await moviesRepository.updateState(id, upperNewState)
