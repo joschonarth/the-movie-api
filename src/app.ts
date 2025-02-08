@@ -3,8 +3,11 @@ import { appRoutes } from './routes/movies-routes'
 import { ZodError } from 'zod'
 import { env } from './env'
 import { BaseError } from './errors/base-error'
+import { authMiddleware } from './middlewares/auth-middleware'
 
 export const app = fastify()
+
+app.register(authMiddleware)
 
 app.register(appRoutes)
 
