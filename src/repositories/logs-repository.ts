@@ -15,4 +15,14 @@ export class LogsRepository {
       },
     })
   }
+
+  async getMovieHistory(movieId: string) {
+    return await prisma.log.findMany({
+      where: { movieId },
+      orderBy: { timestamp: 'asc' },
+      include: {
+        user: { select: { id: true, username: true } },
+      },
+    })
+  }
 }

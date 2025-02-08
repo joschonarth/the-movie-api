@@ -5,6 +5,8 @@ import { listMovies } from '@/controllers/list-movies-controller'
 import { getMovie } from '@/controllers/get-movie-controller'
 import { updateMovieState } from '@/controllers/update-movie-state-controller'
 import { rateMovie } from '@/controllers/rate-movie-controller'
+import { getMovieHistory } from '@/controllers/get-movie-history-controller'
+
 import { logsMiddleware } from '@/middlewares/logs-middleware'
 
 export async function moviesRoutes(app: FastifyInstance) {
@@ -15,4 +17,5 @@ export async function moviesRoutes(app: FastifyInstance) {
   app.get('/movie/:id', getMovie)
   app.put('/movie/:id/state', updateMovieState)
   app.post('/movie/:id/rate', rateMovie)
+  app.get('/movie/:id/history', getMovieHistory)
 }
