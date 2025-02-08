@@ -26,10 +26,13 @@ export async function fetchMovieFromTMDB(title: string) {
       releaseYear: movie.release_date
         ? parseInt(movie.release_date.split('-')[0])
         : null,
-      genreIds: movie.genre_ids,
+      genre: movie.genre_ids,
       synopsis: movie.overview,
     }
   } catch (error) {
+    if (error instanceof NotFoundError) {
+      throw error
+    }
     throw new TMDBServiceError('Error searching for movie on TMDB')
   }
 }

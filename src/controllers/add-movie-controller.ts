@@ -15,7 +15,7 @@ export async function addMovie(request: FastifyRequest, reply: FastifyReply) {
 
   const genres = await fetchGenresFromTMDB()
 
-  const genreNames = movieData.genreIds.map(
+  const genreNames = movieData.genre.map(
     (id: number) => genres[id] || 'Unknown',
   )
 

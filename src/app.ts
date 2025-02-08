@@ -2,6 +2,7 @@ import fastify from 'fastify'
 import { appRoutes } from './routes/movies-routes'
 import { ZodError } from 'zod'
 import { env } from './env'
+import { BaseError } from './errors/base-error'
 
 export const app = fastify()
 
@@ -12,6 +13,10 @@ app.setErrorHandler((error, _, reply) => {
     return reply
       .status(400)
       .send({ message: 'Validation Error', issues: error.format() })
+  }
+
+  if (error instanceof BaseError) {
+    return reply.status(error.statusCode).send({ message: error.message })
   }
 
   if (env.NODE_ENV !== 'production') {
