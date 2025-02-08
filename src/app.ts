@@ -1,18 +1,20 @@
 import fastify from 'fastify'
-import { appRoutes } from './routes/movies-routes'
+import { moviesRoutes } from './routes/movies-routes'
 import { ZodError } from 'zod'
 import { env } from './env'
 import { BaseError } from './errors/base-error'
 import { authMiddleware } from './middlewares/auth-middleware'
-import { logsMiddleware } from './middlewares/logs-middleware'
+import { logsRoutes } from './routes/logs-routes'
 
 export const app = fastify()
 
 app.register(authMiddleware)
 
-app.addHook('onRequest', logsMiddleware)
+app.register(moviesRoutes)
 
-app.register(appRoutes)
+if (env.NODE_ENV !== 'production') {
+  app.register(logsRoutes)
+}
 
 app.setErrorHandler((error, _, reply) => {
   if (error instanceof ZodError) {

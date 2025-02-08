@@ -7,4 +7,12 @@ export class LogsRepository {
       data,
     })
   }
+
+  async getAll() {
+    return await prisma.log.findMany({
+      orderBy: {
+        timestamp: 'desc',
+      },
+    })
+  }
 }
