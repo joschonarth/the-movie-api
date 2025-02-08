@@ -4,8 +4,11 @@ import { ZodError } from 'zod'
 import { env } from './env'
 import { BaseError } from './errors/base-error'
 import { authMiddleware } from './middlewares/auth-middleware'
+import { logsMiddleware } from './middlewares/logs-middleware'
 
 export const app = fastify()
+
+app.addHook('onRequest', logsMiddleware)
 
 app.register(authMiddleware)
 
