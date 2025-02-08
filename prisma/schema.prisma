@@ -44,7 +44,7 @@ model Log {
   url       String
   status    Int
   timestamp DateTime @default(now())
-  movieId   String?  @unique @map("movie_id")
+  movieId   String?  @map("movie_id")
   movie     Movie?   @relation(fields: [movieId], references: [id])
   userId    String?  @map("user_id")
   user      User?    @relation(fields: [userId], references: [id])
