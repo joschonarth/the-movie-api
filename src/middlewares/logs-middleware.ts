@@ -29,7 +29,7 @@ export const logsMiddleware = async (
     let user = null
 
     if (userId) {
-      user = await usersRepository.getByUsername(userId)
+      user = await usersRepository.getById(userId)
     }
 
     const logData = {
