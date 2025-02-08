@@ -39,4 +39,13 @@ export class MoviesRepository {
 
     return movie
   }
+
+  async updateState(id: string, newState: MovieState): Promise<Movie> {
+    const updatedMovie = await prisma.movie.update({
+      where: { id },
+      data: { state: newState },
+    })
+
+    return updatedMovie
+  }
 }
