@@ -14,9 +14,9 @@ export function sendPaginatedResponse(
     data: movies,
     pagination: {
       limit,
-      current_page: page,
-      total_pages: totalPages,
-      total_items: totalMovies,
+      currentPage: page,
+      totalPages,
+      totalItems: totalMovies,
     },
   })
 }
