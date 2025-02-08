@@ -4,6 +4,7 @@ import { MoviesRepository } from '@/repositories/movies-repository'
 import { UsersRepository } from '@/repositories/users-repository'
 import { Movie } from '@prisma/client'
 import { MovieParams } from '@/types/types'
+import { LogError } from '@/errors/log-error'
 
 export const logsMiddleware = async (
   request: FastifyRequest<{ Params: MovieParams }>,
@@ -43,7 +44,6 @@ export const logsMiddleware = async (
 
     await logsRepository.create(logData)
   } catch (error) {
-    console.error('Error logging request:', error)
-    throw error
+    throw new LogError()
   }
 }
