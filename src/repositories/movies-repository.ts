@@ -1,5 +1,5 @@
 import { prisma } from '@/lib/prisma'
-import { Prisma } from '@prisma/client'
+import { MovieState, Prisma } from '@prisma/client'
 
 export class MoviesRepository {
   async create(data: Prisma.MovieCreateInput) {
@@ -10,8 +10,13 @@ export class MoviesRepository {
     return movie
   }
 
-  async findAll() {
-    const movies = await prisma.movie.findMany()
+  async findAll(state?: MovieState) {
+    const filter = state ? { state } : {}
+
+    const movies = await prisma.movie.findMany({
+      where: filter,
+    })
+
     return movies
   }
 }
