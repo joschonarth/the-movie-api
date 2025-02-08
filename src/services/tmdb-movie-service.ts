@@ -1,5 +1,7 @@
 import axios from 'axios'
 import { env } from '@/env'
+import { NotFoundError } from '@/errors/not-found-error'
+import { TMDBServiceError } from '@/errors/tmdb-service-error'
 
 const TMDB_BASE_URL = 'https://api.themoviedb.org/3'
 const TMDB_API_KEY = env.TMDB_API_KEY
@@ -16,7 +18,7 @@ export async function fetchMovieFromTMDB(title: string) {
     const movie = response.data.results[0]
 
     if (!movie) {
-      return null
+      throw new NotFoundError('Movie not found')
     }
 
     return {
@@ -28,7 +30,6 @@ export async function fetchMovieFromTMDB(title: string) {
       synopsis: movie.overview,
     }
   } catch (error) {
-    console.error('Error searching for movie on TMDB:', error)
-    return null
+    throw new TMDBServiceError('Error searching for movie on TMDB')
   }
 }

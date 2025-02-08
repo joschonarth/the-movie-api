@@ -13,10 +13,6 @@ export async function addMovie(request: FastifyRequest, reply: FastifyReply) {
 
   const movieData = await fetchMovieFromTMDB(title)
 
-  if (!movieData) {
-    return reply.status(404).send({ message: 'Movie not found' })
-  }
-
   const genres = await fetchGenresFromTMDB()
 
   const genreNames = movieData.genreIds.map(
