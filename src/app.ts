@@ -8,9 +8,9 @@ import { logsMiddleware } from './middlewares/logs-middleware'
 
 export const app = fastify()
 
-app.addHook('onRequest', logsMiddleware)
-
 app.register(authMiddleware)
+
+app.addHook('onRequest', logsMiddleware)
 
 app.register(appRoutes)
 
