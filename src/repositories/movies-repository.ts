@@ -9,4 +9,9 @@ export class MoviesRepository {
 
     return movie
   }
+
+  async findAll() {
+    const movies = await prisma.movie.findMany()
+    return movies
+  }
 }
