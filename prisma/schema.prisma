@@ -15,6 +15,12 @@ enum MovieState {
   NOT_RECOMMENDED
 }
 
+enum LogType {
+  REQUEST
+  ERROR
+  PERFORMANCE
+}
+
 model User {
   id       String @id @default(uuid())
   username String @unique
@@ -40,6 +46,7 @@ model Movie {
 
 model Log {
   id        String   @id @default(uuid())
+  type      LogType
   method    String
   url       String
   status    Int

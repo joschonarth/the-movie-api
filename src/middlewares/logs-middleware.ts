@@ -2,7 +2,7 @@ import { FastifyRequest, FastifyReply } from 'fastify'
 import { LogsRepository } from '@/repositories/logs-repository'
 import { MoviesRepository } from '@/repositories/movies-repository'
 import { UsersRepository } from '@/repositories/users-repository'
-import { Movie } from '@prisma/client'
+import { LogType, Movie } from '@prisma/client'
 import { MovieParams } from '@/types/types'
 import { LogError } from '@/errors/log-error'
 
@@ -33,7 +33,10 @@ export const logsMiddleware = async (
       user = await usersRepository.getById(userId)
     }
 
+    const logType: LogType = LogType.REQUEST
+
     const logData = {
+      type: logType,
       method,
       url,
       status,
