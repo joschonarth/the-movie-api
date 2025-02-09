@@ -31,6 +31,7 @@
     "fastify-plugin": "5.0.1",
     "movie-api": "file:",
     "the-movie-api": "file:",
+    "uuid": "11.0.5",
     "zod": "3.24.1"
   }
 }
