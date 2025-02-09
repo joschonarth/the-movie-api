@@ -9,6 +9,13 @@ export const authMiddleware: FastifyPluginAsync = fp(
     const usersRepository = new UsersRepository()
 
     fastify.addHook('onRequest', async (request: FastifyRequest) => {
+      if (
+        request.url.startsWith('/docs') ||
+        request.url.startsWith('/swagger-ui')
+      ) {
+        return
+      }
+
       const { authorization } = request.headers
 
       if (!authorization || !authorization.startsWith('Basic ')) {
