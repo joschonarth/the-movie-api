@@ -5,19 +5,8 @@ import { env } from './env'
 import { BaseError } from './errors/base-error'
 import { authMiddleware } from './middlewares/auth-middleware'
 import { logsRoutes } from './routes/logs-routes'
-import {
-  validatorCompiler,
-  serializerCompiler,
-  ZodTypeProvider,
-} from 'fastify-type-provider-zod'
-import { swaggerConfig } from './docs/swagger'
 
-export const app = fastify().withTypeProvider<ZodTypeProvider>()
-
-app.setValidatorCompiler(validatorCompiler)
-app.setSerializerCompiler(serializerCompiler)
-
-swaggerConfig(app)
+export const app = fastify()
 
 app.register(authMiddleware)
 
