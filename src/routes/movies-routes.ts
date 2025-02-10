@@ -173,17 +173,15 @@ export async function moviesRoutes(app: FastifyInstance) {
           },
           examples: [
             {
-              value: {
-                id: 'ae44ae5b-7d56-483a-8283-289c784ee91d',
-                title: 'Interstellar',
-                synopsis:
-                  'The adventures of a group of explorers who make use of a newly discovered wormhole to surpass the limitations on human space travel and conquer the vast distances involved in an interstellar voyage.',
-                releaseYear: 2014,
-                genre: 'Adventure, Drama, Science Fiction',
-                state: 'TO_WATCH',
-                rating: null,
-                createdAt: '2025-02-09T19:16:02.882Z',
-              },
+              id: 'ae44ae5b-7d56-483a-8283-289c784ee91d',
+              title: 'Interstellar',
+              synopsis:
+                'The adventures of a group of explorers who make use of a newly discovered wormhole to surpass the limitations on human space travel and conquer the vast distances involved in an interstellar voyage.',
+              releaseYear: 2014,
+              genre: 'Adventure, Drama, Science Fiction',
+              state: 'TO_WATCH',
+              rating: null,
+              createdAt: '2025-02-09T19:16:02.882Z',
             },
           ],
         },
@@ -215,9 +213,9 @@ export async function moviesRoutes(app: FastifyInstance) {
       },
       body: {
         type: 'object',
-        required: ['newState'],
+        required: ['state'],
         properties: {
-          newState: {
+          state: {
             type: 'string',
             description:
               'The new state to be set for the movie (e.g., WATCHED, TO_WATCH).',

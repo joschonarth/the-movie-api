@@ -3,23 +3,23 @@ import { InvalidStateTransitionError } from '@/errors/invalid-state-transition-e
 
 export function validateStateTransition(
   currentState: MovieState,
-  newState: MovieState,
+  state: MovieState,
 ): void {
-  if (currentState === newState) {
+  if (currentState === state) {
     throw new InvalidStateTransitionError(
       'Movie is already in the requested state.',
     )
   }
 
-  if (newState === MovieState.RATED && currentState !== MovieState.WATCHED) {
+  if (state === MovieState.RATED && currentState !== MovieState.WATCHED) {
     throw new InvalidStateTransitionError(
       'Movie must be watched before it can be rated.',
     )
   }
 
   if (
-    (newState === MovieState.RECOMMENDED ||
-      newState === MovieState.NOT_RECOMMENDED) &&
+    (state === MovieState.RECOMMENDED ||
+      state === MovieState.NOT_RECOMMENDED) &&
     currentState !== MovieState.RATED
   ) {
     throw new InvalidStateTransitionError(

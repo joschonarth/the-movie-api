@@ -11,7 +11,7 @@ export async function updateMovieState(
   request: FastifyRequest<{ Params: MovieParams }>,
   reply: FastifyReply,
 ) {
-  const { newState } = updateMovieStateSchema.parse(request.body)
+  const { state } = updateMovieStateSchema.parse(request.body)
   const { id } = request.params
 
   const moviesRepository = new MoviesRepository()
@@ -22,15 +22,15 @@ export async function updateMovieState(
     throw new NotFoundError('Movie not found')
   }
 
-  const upperNewState = newState.toUpperCase() as MovieState
+  const upperState = state.toUpperCase() as MovieState
 
-  validateStateTransition(movie.state, upperNewState)
+  validateStateTransition(movie.state, upperState)
 
-  if (!Object.values(MovieState).includes(upperNewState as MovieState)) {
+  if (!Object.values(MovieState).includes(upperState as MovieState)) {
     throw new InvalidStateError('Invalid state provided')
   }
 
-  const updatedMovie = await moviesRepository.updateState(id, upperNewState)
+  const updatedMovie = await moviesRepository.updateState(id, upperState)
 
   return reply.status(200).send(updatedMovie)
 }
