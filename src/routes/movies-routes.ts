@@ -221,13 +221,6 @@ export async function moviesRoutes(app: FastifyInstance) {
             type: 'string',
             description:
               'The new state to be set for the movie (e.g., WATCHED, TO_WATCH).',
-            enum: [
-              'TO_WATCH',
-              'WATCHED',
-              'RATED',
-              'RECOMMENDED',
-              'NOT_RECOMMENDED',
-            ],
           },
         },
       },
