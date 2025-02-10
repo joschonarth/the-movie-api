@@ -40,6 +40,14 @@ export class MoviesRepository {
     return movie
   }
 
+  async findByTitle(title: string): Promise<Movie | null> {
+    const movie = await prisma.movie.findFirst({
+      where: { title },
+    })
+
+    return movie
+  }
+
   async updateState(id: string, newState: MovieState): Promise<Movie> {
     const updatedMovie = await prisma.movie.update({
       where: { id },
