@@ -1,10 +1,7 @@
 import { getLogs } from '@/controllers/get-logs-controller'
-import { logSchema } from '@/schemas/log-schema'
 import { FastifyInstance } from 'fastify'
 
 export async function logsRoutes(app: FastifyInstance) {
-  app.addSchema(logSchema)
-
   app.get('/log', {
     schema: {
       tags: ['log'],
@@ -14,7 +11,6 @@ export async function logsRoutes(app: FastifyInstance) {
         200: {
           description: 'A list of logs detailing each request made.',
           type: 'array',
-          $ref: 'Log#',
           items: {
             type: 'object',
             properties: {
