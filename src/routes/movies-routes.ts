@@ -11,7 +11,7 @@ import { logsMiddleware } from '@/middlewares/logs-middleware'
 import { movieSchema } from '@/schemas/movie-schema'
 
 export async function moviesRoutes(app: FastifyInstance) {
-  app.addHook('onRequest', logsMiddleware)
+  app.addHook('onResponse', logsMiddleware)
 
   app.addSchema(movieSchema)
 
