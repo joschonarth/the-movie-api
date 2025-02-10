@@ -7,3 +7,13 @@ services:
       - POSTGRESQL_USERNAME=docker
       - POSTGRESQL_PASSWORD=docker
       - POSTGRESQL_DATABASE=moviedb
+  movie-api:
+    build: .
+    ports:
+      - "3333:3333"
+    depends_on:
+      - movie-api-pg
+    env_file:
+      - .env
+    volumes:
+      - .:/app

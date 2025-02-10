@@ -9,5 +9,6 @@ app
     port: env.PORT,
   })
   .then(() => {
-    console.log(`Server running on port ${port}`)
+    console.log(`Server is running at http://localhost:${port}\n`)
+    console.log(`Documentation is available at http://localhost:${port}/docs`)
   })
