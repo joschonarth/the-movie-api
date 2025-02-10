@@ -5,8 +5,11 @@ import { env } from './env'
 import { BaseError } from './errors/base-error'
 import { authMiddleware } from './middlewares/auth-middleware'
 import { logsRoutes } from './routes/logs-routes'
+import { swaggerConfig } from './configs/swagger-config'
 
 export const app = fastify()
+
+swaggerConfig(app)
 
 app.register(authMiddleware)
 
