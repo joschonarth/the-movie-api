@@ -54,13 +54,41 @@ Antes de acessar a aplicação, é necessário criar uma conta no **TMDB** e obt
     npm install
     ```
 
-4. **Execute as migrações do banco de dados:**
+4. **Configure o banco de dados:**
+
+  - **Com Docker**:
+
+    O projeto utiliza o **PostgreSQL** como banco de dados. Para rodar o banco de dados localmente, você pode usar a imagem `bitnami/postgresql` no **Docker**. Para isso, basta executar o seguinte comando:
+
+    ```bash
+    docker compose up -d
+    ```
+
+    Esse comando irá iniciar o banco de dados em um contêiner Docker com a configuração definida no arquivo [`docker-compose.yml`](./docker-compose.yml).
+
+  - **Com PostgreSQL Local**:
+
+    Caso você tenha o PostgreSQL instalado localmente, você precisará configurar a variável de ambiente `DATABASE_URL` com os dados de conexão para o banco de dados. A URL de conexão deve ter o seguinte formato:
+
+    ```env
+    DATABASE_URL=postgresql://<usuario>:<senha>@localhost:<porta>/<nome_do_banco>
+    ```
+
+    Por exemplo:
+
+    ```env
+    DATABASE_URL=postgresql://meu_usuario:minha_senha@localhost:5432/meu_banco
+    ```
+
+    Certifique-se de ajustar `<usuario>`, `<senha>`, `<porta>` e `<nome_do_banco>` de acordo com a sua configuração.
+
+5. **Execute as migrações do banco de dados:**
 
     ```bash
     npx prisma migrate dev
     ```
 
-5. **Rodando a aplicação localmente:**
+6. **Rodando a aplicação localmente:**
 
     Para rodar a aplicação localmente, execute o seguinte comando:
 
