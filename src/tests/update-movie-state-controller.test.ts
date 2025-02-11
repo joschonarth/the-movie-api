@@ -1,19 +1,19 @@
 import { expect, describe, it, vi, beforeAll, afterAll } from 'vitest'
 import fastify, { FastifyInstance } from 'fastify'
-import { rateMovie } from '@/controllers/rate-movie-controller'
 import { MoviesRepository } from '@/repositories/movies-repository'
 import { MovieState } from '@prisma/client'
 import { v4 as uuidv4 } from 'uuid'
+import { updateMovieState } from '@/controllers/update-movie-state-controller'
 
 vi.mock('@/repositories/movies-repository')
 
-describe('Rate Movie Controller', () => {
+describe('Update Movie State Controller', () => {
   let fastifyInstance: FastifyInstance
 
   beforeAll(async () => {
     fastifyInstance = fastify()
 
-    fastifyInstance.post('/movie/:id/rate', rateMovie)
+    fastifyInstance.put('/movie/:id/state', updateMovieState)
 
     await fastifyInstance.listen({ port: 0 })
   })
@@ -22,11 +22,22 @@ describe('Rate Movie Controller', () => {
     await fastifyInstance.close()
   })
 
-  it('should rate a movie successfully', async () => {
+  it('should update a movie state successfully', async () => {
     const uuid = uuidv4()
-    const rating = 5
+    const state = 'WATCHED'
 
     vi.mocked(MoviesRepository.prototype.findById).mockResolvedValue({
+      id: uuid,
+      title: 'Interstellar',
+      releaseYear: 2014,
+      genre: 'Science Fiction, Drama, Adventure',
+      synopsis: 'The adventures of a group of explorers ...',
+      state: MovieState.TO_WATCH,
+      rating: null,
+      createdAt: new Date('2025-02-09T12:05:52.124Z'),
+    })
+
+    vi.mocked(MoviesRepository.prototype.updateState).mockResolvedValue({
       id: uuid,
       title: 'Interstellar',
       releaseYear: 2014,
@@ -37,21 +48,10 @@ describe('Rate Movie Controller', () => {
       createdAt: new Date('2025-02-09T12:05:52.124Z'),
     })
 
-    vi.mocked(MoviesRepository.prototype.rateMovie).mockResolvedValue({
-      id: uuid,
-      title: 'Interstellar',
-      releaseYear: 2014,
-      genre: 'Science Fiction, Drama, Adventure',
-      synopsis: 'The adventures of a group of explorers ...',
-      state: MovieState.RATED,
-      rating: 5,
-      createdAt: new Date('2025-02-09T12:05:52.124Z'),
-    })
-
     const response = await fastifyInstance.inject({
-      method: 'POST',
-      url: `/movie/${uuid}/rate`,
-      payload: { rating },
+      method: 'PUT',
+      url: `/movie/${uuid}/state`,
+      payload: { state },
     })
 
     expect(response.statusCode).toBe(200)
@@ -61,22 +61,22 @@ describe('Rate Movie Controller', () => {
       releaseYear: 2014,
       genre: 'Science Fiction, Drama, Adventure',
       synopsis: 'The adventures of a group of explorers ...',
-      state: MovieState.RATED,
-      rating: 5,
+      state: MovieState.WATCHED,
+      rating: null,
       createdAt: '2025-02-09T12:05:52.124Z',
     })
   })
 
   it('should return an error if the movie is not found', async () => {
     const uuid = uuidv4()
-    const rating = 4
+    const state = 'WATCHED'
 
     vi.mocked(MoviesRepository.prototype.findById).mockResolvedValue(null)
 
     const response = await fastifyInstance.inject({
-      method: 'POST',
-      url: `/movie/${uuid}/rate`,
-      payload: { rating },
+      method: 'PUT',
+      url: `/movie/${uuid}/state`,
+      payload: { state },
     })
 
     expect(response.statusCode).toBe(404)
@@ -89,7 +89,7 @@ describe('Rate Movie Controller', () => {
 
   it('should handle invalid state transition correctly', async () => {
     const uuid = uuidv4()
-    const rating = 4
+    const state = 'RATED'
 
     vi.mocked(MoviesRepository.prototype.findById).mockResolvedValue({
       id: uuid,
@@ -103,9 +103,9 @@ describe('Rate Movie Controller', () => {
     })
 
     const response = await fastifyInstance.inject({
-      method: 'POST',
-      url: `/movie/${uuid}/rate`,
-      payload: { rating },
+      method: 'PUT',
+      url: `/movie/${uuid}/state`,
+      payload: { state },
     })
 
     expect(response.statusCode).toBe(400)
@@ -118,16 +118,16 @@ describe('Rate Movie Controller', () => {
 
   it('should handle generic errors correctly', async () => {
     const uuid = uuidv4()
-    const rating = 4
+    const state = 'WATCHED'
 
     vi.mocked(MoviesRepository.prototype.findById).mockRejectedValue(
       new Error('Database Error'),
     )
 
     const response = await fastifyInstance.inject({
-      method: 'POST',
-      url: `/movie/${uuid}/rate`,
-      payload: { rating },
+      method: 'PUT',
+      url: `/movie/${uuid}/state`,
+      payload: { state },
     })
 
     expect(response.statusCode).toBe(500)
