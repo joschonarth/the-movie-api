@@ -30,11 +30,10 @@
     "@fastify/swagger": "9.4.2",
     "@fastify/swagger-ui": "5.2.1",
     "@prisma/client": "6.3.1",
-    "axios": "1.7.9",
+    "axios": "1.8.4",
     "dotenv": "16.4.7",
     "fastify": "5.3.2",
     "fastify-plugin": "5.0.1",
-    "movie-api": "file:",
     "the-movie-api": "file:",
     "uuid": "11.0.5",
     "zod": "3.24.1"
