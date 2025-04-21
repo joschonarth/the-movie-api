@@ -1,6 +1,41 @@
-# 🎬 The Movie API
+<h1 align="center">🎬 The Movie API</h1>
 
-Este projeto é uma **API de Filmes** que se integra à API do **The Movie Database (TMDB)** para buscar informações sobre filmes. Ele permite que os usuários adicionem filmes à lista de desejos, atualizem o estado de um filme, avaliem filmes e muito mais.
+<p align="center">🎬 Uma <b>API RESTful</b> para gerenciar um catálogo de filmes, integrada à API do <b>The Movie Database (TMDB)</b> para obter informações detalhadas sobre os filmes.
+  <br/><br/>
+  <!-- Último commit -->
+  <img src="https://img.shields.io/github/last-commit/joschonarth/the-movie-api?style=for-the-badge&color=a277ff&labelColor=1C1E26" alt="last-commit">
+  <!-- Linguagem principal -->
+  <img src="https://img.shields.io/github/languages/top/joschonarth/the-movie-api?style=for-the-badge&color=a277ff&labelColor=1C1E26" alt="top-language">
+  <!-- Contador de linguagens -->
+  <img src="https://img.shields.io/github/languages/count/joschonarth/the-movie-api?style=for-the-badge&color=a277ff&labelColor=1C1E26" alt="languages-count">
+  <!-- Licença -->
+  <img src="https://img.shields.io/github/license/joschonarth/the-movie-api?style=for-the-badge&color=a277ff&labelColor=1C1E26" alt="license">
+</p>
+
+## 📑 Índice
+
+- [👀 Visão Geral](#-visão-geral)
+- [🛠️ Tecnologias Utilizadas](#️-tecnologias-utilizadas)
+- [⚙️ Funcionalidades](#️-funcionalidades)
+- [🚀 Como Executar o Projeto](#-como-executar-o-projeto)
+  - [📋 Pré-requisitos](#-pré-requisitos)
+  - [🔑 Obtenha a sua API Key do TMDB](#-obtenha-a-sua-api-key-do-tmdb)
+  - [🔧 Instalação](#-instalação)
+  - [▶️ Execução](#️-execução)
+  - [🐳 Rodando a aplicação com Docker](#-rodando-a-aplicação-com-docker)
+- [🔒 Autenticação](#-autenticação)
+- [📌 Tabela de Endpoints](#-tabela-de-endpoints)
+- [🔗 Endpoints](#-endpoints)
+- [📝 Documentação da API com Swagger](#-documentação-da-api-com-swagger)
+- [🧪 Testes](#-testes)
+- [🤝 Contribuições](#-contribuições)
+- [⭐ Apoie este Projeto](#-apoie-este-projeto)
+- [📜 Licença](#-licença)
+- [📞 Contato](#-contato)
+
+## 👀 Visão Geral
+
+O **The Movie API** é uma aplicação backend desenvolvida com foco em performance, escalabilidade e organização de código. Integrando-se à poderosa base de dados da **TMDB** (The Movie Database), esta API permite que usuários gerenciem uma lista personalizada de filmes, incluindo funcionalidades como adicionar à lista de desejos, atualizar o estado (assistido, a assistir, recomendado etc.), registrar avaliações e acompanhar um histórico detalhado de ações. Além disso, a aplicação conta com autenticação básica para segurança, documentação via Swagger, testes automatizados com Vitest e uma arquitetura moderna com Fastify, TypeScript e Prisma.
 
 ## 🛠️ Tecnologias Utilizadas
 
@@ -27,7 +62,14 @@ Este projeto é uma **API de Filmes** que se integra à API do **The Movie Datab
 - 📖 **Histórico de ações:** Visualize o histórico de ações relacionadas a um filme (adicionado, avaliado, etc).
 - 📊 **Logs das requisições:** Visualize os logs das requisições feitas na API.
 
-## 🔑 Obtenha a sua API Key do TMDB
+## 🚀 Como Executar o Projeto
+
+### 📋 Pré-requisitos
+
+- 🟩 [Node.js 20](https://nodejs.org/en/download/)
+- 📦 [npm 10](https://www.npmjs.com/)
+
+### 🔑 Obtenha a sua API Key do TMDB
 
 Antes de acessar a aplicação, é necessário criar uma conta no **TMDB** e obter uma API Key.
 
@@ -35,18 +77,19 @@ Antes de acessar a aplicação, é necessário criar uma conta no **TMDB** e obt
 2. Após criar a conta, vá até as [Configurações da API](https://www.themoviedb.org/settings/api) e gere sua API Key.
 3. Copie essa chave e configure no arquivo `.env` da aplicação a variável `TMDB_API_KEY` (veja a seção de instalação para mais detalhes).
 
-## 🔧 Instalação
+### 🔧 Instalação
 
 1. **Clone o repositório:**
 
     ```bash
     git clone https://github.com/joschonarth/the-movie-api.git
-    cd the-movie-api
     ```
 
-2. **Crie um arquivo `.env` a partir do exemplo:**
+2. Acesse o diretório do projeto:
 
-    O projeto já contém um arquivo `.env.example` com os exemplos de variáveis de ambiente que você precisa configurar. Copie para `.env` e preencha as informações de acordo com suas necessidades.
+    ```bash
+    cd the-movie-api
+    ```
 
 3. **Instale as dependências:**
 
@@ -54,41 +97,49 @@ Antes de acessar a aplicação, é necessário criar uma conta no **TMDB** e obt
     npm install
     ```
 
-4. **Configure o banco de dados:**
+### ▶️ Execução
 
-  - **Com Docker**:
+1. **Crie um arquivo `.env` a partir do exemplo:**
 
-    O projeto utiliza o **PostgreSQL** como banco de dados. Para rodar o banco de dados localmente, você pode usar a imagem `bitnami/postgresql` no **Docker**. Para isso, basta executar o seguinte comando:
+    O projeto já contém um arquivo `.env.example` com os exemplos de variáveis de ambiente que você precisa configurar. Copie para `.env` e preencha as informações de acordo com suas necessidades.
 
-    ```bash
-    docker compose up -d
-    ```
+2. **Configure o banco de dados:**
 
-    Esse comando irá iniciar o banco de dados em um contêiner Docker com a configuração definida no arquivo [`docker-compose.yml`](./docker-compose.yml).
+    - **Com Docker**:
 
-  - **Com PostgreSQL Local**:
+      O projeto utiliza o **PostgreSQL** como banco de dados. Para rodar o banco de dados localmente via Docker, siga os passos abaixo:
 
-    Caso você tenha o PostgreSQL instalado localmente, você precisará configurar a variável de ambiente `DATABASE_URL` com os dados de conexão para o banco de dados. A URL de conexão deve ter o seguinte formato:
+      1. No arquivo `.env`, configure a URL de conexão para o banco de dados com o seguinte valor:
 
-    ```env
-    DATABASE_URL=postgresql://<usuario>:<senha>@localhost:<porta>/<nome_do_banco>
-    ```
+          ```env
+          DATABASE_URL="postgresql://docker:docker@localhost:5432/moviedb?schema=public"
+          ```
 
-    Por exemplo:
+      2. Em seguida, inicie o banco de dados utilizando a imagem `bitnami/postgresql` com o comando:
 
-    ```env
-    DATABASE_URL=postgresql://meu_usuario:minha_senha@localhost:5432/meu_banco
-    ```
+          ```bash
+          docker-compose up movie-api-pg -d
+          ```
 
-    Certifique-se de ajustar `<usuario>`, `<senha>`, `<porta>` e `<nome_do_banco>` de acordo com a sua configuração.
+      Esse comando irá iniciar o banco de dados em um contêiner Docker com a configuração definida no arquivo [`docker-compose.yml`](./docker-compose.yml).
 
-5. **Execute as migrações do banco de dados:**
+    - **Com PostgreSQL Local**:
+
+      Caso você tenha o PostgreSQL instalado localmente, você precisará configurar a variável de ambiente `DATABASE_URL` com os dados de conexão para o banco de dados. A URL de conexão deve ter o seguinte formato:
+
+      ```env
+      DATABASE_URL=postgresql://<usuario>:<senha>@localhost:<porta>/<nome_do_banco>
+      ```
+
+      Certifique-se de ajustar `<usuario>`, `<senha>`, `<porta>` e `<nome_do_banco>` de acordo com a sua configuração.
+
+3. **Execute as migrações do banco de dados:**
 
     ```bash
     npx prisma migrate dev
     ```
 
-6. **Rodando a aplicação localmente:**
+4. **Rodando a aplicação localmente:**
 
     Para rodar a aplicação localmente, execute o seguinte comando:
 
@@ -98,13 +149,27 @@ Antes de acessar a aplicação, é necessário criar uma conta no **TMDB** e obt
 
     A aplicação estará disponível em [http://localhost:3333](http://localhost:3333).
 
-## 🐳 Rodando a aplicação com Docker
+### 🐳 Rodando a aplicação com Docker
 
-Este projeto está containerizado usando o **Docker**. Para rodar a aplicação em um container Docker, utilize o seguinte comando:
+Este projeto está containerizado usando o **Docker**. Para rodar a aplicação em um container Docker, siga os passos abaixo:
 
-  ```bash
-  docker-compose up --build
-  ```
+1. Configure a URL de conexão adequada para o container Docker no arquivo `.env`:
+
+    ```bash
+    DATABASE_URL=postgresql://docker:docker@movie-api-pg:5432/moviedb?schema=public
+    ```
+
+2. Realize a build do projeto com o comando:
+
+    ```bash
+    npm run build
+    ```
+
+3. Em seguida, utilize o comando abaixo para subir a aplicação no Docker:
+
+    ```bash
+    docker-compose up --build
+    ```
 
 A aplicação estará disponível em [http://localhost:3333](http://localhost:3333) dentro do container.
 
@@ -137,6 +202,18 @@ Caso esteja utilizando `httpie`, você pode passar as credenciais da seguinte fo
 http -a admin:admin123 http://localhost:3333/movie
 ```
 
+## 📌 Tabela de Endpoints
+
+| Método | Rota                  | Descrição                             |
+|--------|-----------------------|---------------------------------------|
+| POST   | `/movie`              | Adiciona um filme à lista de desejos  |
+| GET    | `/movie`              | Lista todos os filmes                 |
+| GET    | `/movie/:id`          | Busca um filme específico             |
+| PUT    | `/movie/:id/state`    | Atualiza o estado do filme            |
+| POST    | `/movie/:id/rate`    | Avalia um filme                       |
+| GET    | `/movie/:id/history`  | Histórico de ações do filme           |
+| GET    | `/log`                | Logs de requisições                   | 
+
 ## 🔗 Endpoints
 
 ### 🎥 Adicionar Filme à Lista de Desejos
@@ -156,7 +233,14 @@ http -a admin:admin123 http://localhost:3333/movie
 
   ```json
   {
-    "message": "Movie added successfully"
+    "id": "ae44ae5b-7d56-483a-8283-289c784ee91d",
+    "title": "Interstellar",
+    "synopsis": "The adventures of a group of explorers who make use of a newly discovered wormhole to surpass the limitations on human space travel and conquer the vast distances involved in an interstellar voyage.",
+    "releaseYear": 2014,
+    "genre": "Adventure, Drama, Science Fiction",
+    "state": "TO_WATCH",
+    "createdAt": "2025-04-21T13:41:58.833Z",
+    "rating": null
   }
   ```
 
@@ -172,9 +256,9 @@ http -a admin:admin123 http://localhost:3333/movie
 
 - **Exemplo de Requisição**:
 
-```url
-GET /movie?state=watched&limit=10&page=1
-```
+  ```url
+  GET /movie?state=watched&limit=10&page=1
+  ```
 
 - **Exemplo de Resposta:**
 
@@ -207,7 +291,7 @@ GET /movie?state=watched&limit=10&page=1
 - **Método**: `GET`
 - **URL**: `/movie/:id`
 - **Parâmetros de URL:**  
-  `id`: ID do filme.
+  - `id`: ID do filme.
 
 - **Exemplo de Resposta:**
 
@@ -230,7 +314,7 @@ GET /movie?state=watched&limit=10&page=1
 - **Método**: `PUT`
 - **URL**: `/movie/:id/state`
 - **Parâmetros de URL:**  
-  `id`: ID do filme.
+  - `id`: ID do filme.
 - **Corpo da Requisição:**  
 
   ```json
@@ -260,7 +344,7 @@ GET /movie?state=watched&limit=10&page=1
 - **Método**: `POST`
 - **URL**: `/movie/:id/rate`
 - **Parâmetros de URL:**  
-  `id`: ID do filme.
+  - `id`: ID do filme.
 - **Corpo da Requisição:**  
 
   ```json
@@ -290,7 +374,7 @@ GET /movie?state=watched&limit=10&page=1
 - **Método**: `GET`
 - **URL**: `/movie/:id/history`
 - **Parâmetros de URL:**  
-  `id`: ID do filme.
+  - `id`: ID do filme.
 
 - **Exemplo de Resposta:**
 
@@ -411,15 +495,33 @@ A documentação da API foi criada utilizando **Swagger**. Você pode acessá-la
 
 ## 🧪 Testes
 
-Este projeto utiliza o **Vitest** para garantir a confiabilidade e o funcionamento correto dos recursos implementados. Para executar os testes, utilize o seguinte comando:  
+Este projeto utiliza o **Vitest** para garantir a confiabilidade e o funcionamento correto dos recursos implementados. Para executar os testes, utilize os seguintes comandos:
 
-```bash
-npm run test
-```
+- **Executar testes:**
+
+  ```bash
+  npm run test
+  ```
+
+- **Executar testes em modo de observação:**
+
+  ```bash
+  npm run test:watch
+  ```
+
+- **Executar testes com cobertura:**
+
+  ```bash
+  npm run test:coverage
+  ```
 
 ## 🤝 Contribuições
 
-Contribuições são bem-vindas! Sinta-se à vontade para abrir issues ou pull requests com melhorias ou correções. 🚀
+Contribuições são bem-vindas! Sinta-se à vontade para abrir issues ou pull requests com melhorias ou correções. ✨
+
+## ⭐ Apoie este Projeto
+
+Se este projeto te ajudou ou te inspirou de alguma forma, não esqueça de deixar uma ⭐ no repositório! Isso faz toda a diferença! 🚀
 
 ## 📜 Licença
 
