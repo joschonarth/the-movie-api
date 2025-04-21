@@ -10,6 +10,12 @@ COPY . .
 
 RUN npm run build
 
+COPY wait-for-it.sh ./
+RUN chmod +x wait-for-it.sh
+
+COPY start.sh ./
+RUN chmod +x start.sh
+
 EXPOSE 3333
 
-CMD ["npm", "start"]
+CMD ["./start.sh"]
