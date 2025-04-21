@@ -46,6 +46,6 @@ export async function addMovie(request: FastifyRequest, reply: FastifyReply) {
 
     await logsRepository.create(logData)
 
-    return reply.status(201).send({ message: 'Movie added successfully' })
+    return reply.status(201).send(newMovie)
   }
 }
